@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="main.css">
+</head>
+</head>
+<body>
+
+<div class="container">
+  <h1><%= title %></h1>
+  <form action="/update" method="post">
+    <input type="hidden" value="<%= author.id %>" name="id">
+    <div class="form-group">
+      <label for="name">Name:</label>
+      <input type="text" class="form-control"  placeholder="Enter Name" value="<%= author.name %>" name="name" required>
+    </div>
+    <div class="form-group">
+      <label for="description">text:</label>
+      <input type="text" class="form-control"  placeholder="Enter text" value="<%= author.description %>" name="description" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>

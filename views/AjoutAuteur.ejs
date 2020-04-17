@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<div class="container">
+  <h1><%= title %></h1>
+  <form action="/signUp" method="post">
+    <div class="form-group">
+      <label for="id_Auteur">Id_Auteur:</label>
+      <input type="text" class="form-control"  placeholder="Enter Name" name="id" required>
+    </div>
+    <div class="form-group">
+      <label for="Nom">Nom_Auteur:</label>
+      <input type="text" class="form-control"  placeholder="Enter text" name="nom" required>
+    </div>
+    <div class="form-group">
+      <label for="Age">Age_Auteur:</label>
+      <input type="text" class="form-control"  placeholder="Enter text" name="age">
+    </div>
+    <div class="form-group">
+      <label for="Nationalité">Nationalité_Auteur:</label>
+      <input type="text" class="form-control"  placeholder="Enter text" name="natio">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>
+
+</body>
+</html>
