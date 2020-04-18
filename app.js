@@ -64,6 +64,43 @@ app.post('/signUp',(req, res) => {
     });
 });
 
+app.get('/edit/:userId',(req, res) => {
+
+    const auteurId = req.params.userId;
+    let sql = `Select * from auteurs where id_Auteur = ${auteurId}`;
+    let query = connection.query(sql,(err, result) => {
+        if(err) throw err;
+        res.render('UpdateAuteur', {
+            title : 'Auteur Modification',
+            row : result[0]
+        });
+    });
+});
+
+app.post('/update',(req, res) => {
+
+  let userId = req.body.id;
+
+
+    let sql = `update auteurs SET Nom = '${req.body.nom}', Age = ${req.body.age}, Nationalite = '${req.body.natio}' where id_Auteur = ${userId}`;
+    let query = connection.query(sql,(err, results) => {
+      if(err) throw err;
+      res.redirect('/');
+    });
+});
+
+
+
+app.get('/delete/:userId',(req, res) => {
+    const userId = req.params.userId;
+    let sql = `DELETE from auteurs where id_Auteur = ${userId}`;
+    let query = connection.query(sql,(err, result) => {
+        if(err) throw err;
+        res.redirect('/');
+    });
+});
+
+
 app.listen(port, (error)=>{
   console.log(`Listening on port ${port}`);
 });

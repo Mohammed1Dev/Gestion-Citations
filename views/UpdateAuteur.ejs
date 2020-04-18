@@ -4,8 +4,8 @@
   <title><%= title %></title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="bootstrap.min.css">
-  <link rel="stylesheet" href="main.css">
+  <link rel="stylesheet" href="./public/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./public/css/main.css">
 </head>
 </head>
 <body>
@@ -13,14 +13,19 @@
 <div class="container">
   <h1><%= title %></h1>
   <form action="/update" method="post">
-    <input type="hidden" value="<%= author.id %>" name="id">
+
+    <input type="hidden" value="<%= row.id_Auteur %>" name="id">
     <div class="form-group">
-      <label for="name">Name:</label>
-      <input type="text" class="form-control"  placeholder="Enter Name" value="<%= author.name %>" name="name" required>
+      <label for="name">Nom:</label>
+      <input type="text" class="form-control"  placeholder="Modifier Nom" value="<%= row.Nom %>" name="nom" required>
     </div>
     <div class="form-group">
-      <label for="description">text:</label>
-      <input type="text" class="form-control"  placeholder="Enter text" value="<%= author.description %>" name="description" required>
+      <label for="name">Age:</label>
+      <input type="text" class="form-control"  placeholder="Modifier l'age" value="<%= row.Age %>" name="age" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Nationalité:</label>
+      <input type="text" class="form-control"  placeholder="Modifier Nationalité" value="<%= row.Nationalite %>" name="natio" required>
     </div>
 
     <button type="submit" class="btn btn-primary">Submit</button>
