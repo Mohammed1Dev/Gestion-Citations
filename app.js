@@ -12,7 +12,7 @@ const port = process.env.PORT || 2020;
 const connection = mysql.createConnection({
     host:'localhost',
     user:'root',
-    database:'gestion_citations'
+    database:'gestion_disponibilite'
 });
 
 connection.connect((error)=>{
@@ -22,6 +22,7 @@ connection.connect((error)=>{
 
 
 app.use(express.static(path.join(__dirname, 'public','css')));
+app.use(express.static(path.join(__dirname, 'public', 'img')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set('view engine', 'ejs');
@@ -35,43 +36,124 @@ app.set('views',path.join(__dirname,'views'));
 
 app.get('/',(req, res) => {
 
-    let sql = "SELECT * FROM auteurs";
+    let sql = "SELECT * FROM produit";
     connection.query(sql, (err, rows) => {
       console.log(rows);
         if(err) throw err;
-        res.render('Home', {
-            title : 'Tout les Auteurs',
+        res.render('Produit', {
+            title : 'All Products',
             rows : rows
         });
 
     });
 });
 
-app.get('/add',(req, res) => {
-	// page add author
-    res.render('AjoutAuteur', {
-        title : 'Ajouter Un Auteur',
+app.get('/rayons',(req, res) => {
+
+    let sql = "SELECT * FROM rayons";
+    connection.query(sql, (err, rows) => {
+      console.log(rows);
+        if(err) throw err;
+        res.render('rayons', {
+            title : 'Explorer les Rayons',
+            rows : rows
+        });
+
     });
 });
 
-app.post('/signUp',(req, res) => {
+app.get('/Fournisseur',(req, res) => {
 
-    let data = {id_Auteur: req.body.id, Nom: req.body.nom, Age: req.body.age, Nationalite: req.body.natio};
-    let sql = "INSERT INTO auteurs SET ?";
+    let sql = "SELECT * FROM fournisseur";
+    connection.query(sql, (err, rows) => {
+      console.log(rows);
+        if(err) throw err;
+        res.render('fournisseur', {
+            title : 'Nos Fournisseur',
+            rows : rows
+        });
+
+    });
+});
+
+app.get('/addProduit',(req, res) => {
+  let idR ;
+  let sql1 = "SELECT id_rayon FROM rayons";
+  connection.query(sql1, (err, rows) => {
+    idR = rows;
+      if(err) throw err;
+        });
+    res.render('AjoutProduit', {
+        title : 'Ajouter Un produit',
+        idR : idR
+    });
+
+});
+
+app.post('/SaveProduit',(req, res) => {
+
+    let data = {id_produit: req.body.idP, id_fournisseur: req.body.idF, id_rayon: req.body.idR, nom_produit: req.body.nom, quantite: req.body.quantite};
+    let sql = "INSERT INTO produit SET ?";
     connection.query(sql, data,(err, results) => {
       if(err) return err;
       res.redirect('/');
     });
 });
 
+
+app.get('/addFournisseur',(req, res) => {
+
+    res.render('AjoutFournisseur', {
+        title : 'Ajouter Un Nouveau Fournisseur',
+
+    });
+
+});
+
+app.post('/SaveFournisseur',(req, res) => {
+
+    let data = {id_fournisseur: req.body.id_f, nom: req.body.nom_f, tel: req.body.tel};
+    let sql = "INSERT INTO fournisseur SET ?";
+    connection.query(sql, data,(err, results) => {
+      if(err) return err;
+      res.redirect('/Fournisseur');
+    });
+});
+
+
+
+app.get('/addRayon',(req, res) => {
+
+    res.render('AjoutRayons', {
+        title : 'Ajouter Un Nouveau Rayon',
+
+    });
+
+});
+
+app.post('/SaveRayons',(req, res) => {
+
+    let data = {id_rayon: req.body.id_r, nbr_fornisseur: req.body.nbr_f, nbr_produit: req.body.nbr_p};
+    let sql = "INSERT INTO rayons SET ?";
+    connection.query(sql, data,(err, results) => {
+      if(err) return err;
+      res.redirect('/rayons');
+    });
+});
+
+
+
+
+
+
 app.get('/edit/:userId',(req, res) => {
 
     const auteurId = req.params.userId;
-    let sql = `Select * from auteurs where id_Auteur = ${auteurId}`;
+    let sql = `Select * from produit where id_produit = ${auteurId}`;
     let query = connection.query(sql,(err, result) => {
         if(err) throw err;
         res.render('UpdateAuteur', {
-            title : 'Auteur Modification',
+            title : 'Modification produit',
             row : result[0]
         });
     });
